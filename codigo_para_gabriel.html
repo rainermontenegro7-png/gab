@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Gabriel ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px 60px 80px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            background-color: #fffef0;
+            background-image: 
+                linear-gradient(90deg, transparent 59px, #ff7b7b 59px, #ff7b7b 61px, transparent 61px),
+                linear-gradient(#c2d9ff 1px, transparent 1px);
+            background-size: 100% 100%, 100% 32px;
+            font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d62828;
+            font-size: 28px;
+            line-height: 32px;
+            margin-top: 0;
+            margin-bottom: 32px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1d3557;
+            font-size: 22px;
+            margin-top: 0;
+            border-bottom: 2px dashed #ff7b7b;
+            padding-bottom: 5px;
+        }
+
+        .contenedor-principal {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .seccion-cuaderno {
+            margin-bottom: 45px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 28vh;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 19px;
+            line-height: 32px;
+            color: #1d3557;
+            padding: 0;
+        }
+
+        textarea::placeholder {
+            color: #8d99ae;
+        }
+
+        .galeria-fotos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .foto-item {
+            position: relative;
+            background: white;
+            padding: 8px 8px 25px 8px;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            transform: rotate(-1deg);
+        }
+
+        .foto-item img {
+            max-width: 180px;
+            max-height: 180px;
+            display: block;
+            border-radius: 2px;
+        }
+
+        .btn-borrar-foto {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #d62828;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .botones {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        button, .btn-subir {
+            padding: 9px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.1s ease;
+        }
+
+        button:active, .btn-subir:active {
+            transform: scale(0.96);
+        }
+
+        .btn-subir { background-color: #457b9d; color: white; display: inline-block; }
+        .btn-guardar { background-color: #e63946; color: white; }
+        .btn-limpiar { background-color: #a8dadc; color: #1d3557; }
+        .btn-secundario { background-color: #2a9d8f; color: white; }
+
+        .mensaje-estado {
+            text-align: right;
+            font-size: 14px;
+            color: #2a9d8f;
+            margin-top: 6px;
+            height: 20px;
+        }
+
+        .caja-blanca {
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid #c2d9ff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .form-cuenta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            padding: 9px 12px;
+            border: 2px solid #a8dadc;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #457b9d;
+        }
+
+        .barra-usuario {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e0fbfc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .historial-chat {
+            height: 240px;
+            overflow-y: auto;
+            border: 1px solid #c2d9ff;
+            border-radius: 8px;
+            padding: 12px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .burbuja-msg {
+            max-width: 75%;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .msg-propio {
+            align-self: flex-end;
+            background-color: #ffd6d6;
+            color: #590d22;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-otro {
+            align-self: flex-start;
+            background-color: #e2ece9;
+            color: #1d3557;
+            border-bottom-left-radius: 2px;
+        }
+
+        .msg-autor {
+            font-size: 11px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 3px;
+            opacity: 0.8;
+        }
+
+        .enviar-chat {
+            display: flex;
+            gap: 10px;
+        }
+
+        .enviar-chat input {
+            flex: 1;
+        }
+
+        .controles-pizarra {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 2px solid #c2d9ff;
+        }
+
+        #pizarra {
+            background-color: #ffffff;
+            border: 3px solid #457b9d;
+            border-radius: 10px;
+            cursor: crosshair;
+            display: block;
+            width: 100%;
+            height: 360px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            touch-action: none;
+        }
+
+        .seccion-final {
+            margin-top: 50px;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .texto-muak {
+            font-size: 36px;
+            color: #e63946;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .foto-final {
+            display: inline-block;
+            background: white;
+            padding: 12px 12px 35px 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            transform: rotate(2deg);
+        }
+
+        .foto-final img {
+            max-width: 280px;
+            width: 100%;
+            border-radius: 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TE AMO GABRIEL ERES LO MEJOR GRACIAS POR ESTAR CONMIGO ❤️</h1>
+
+    <div class="contenedor-principal">
+
+        <!-- 1. NOTAS Y FOTOS -->
+        <div class="seccion-cuaderno">
+            <h2>📝 Nuestras Notas y Recuerdos</h2>
+            <textarea id="blocNotas" placeholder="Escribe aquí tus notas, cartas o recuerdos..."></textarea>
+            <div class="galeria-fotos" id="galeriaFotos"></div>
+
+            <div class="botones">
+                <label for="inputFoto" class="btn-subir">📷 Agregar foto</label>
+                <input type="file" id="inputFoto" accept="image/*" style="display: none;" onchange="agregarFoto(event)">
+                <button type="button" class="btn-limpiar" onclick="limpiarTodo()">Borrar notas</button>
+                <button type="button" class="btn-guardar" onclick="guardarNota()">Guardar nota</button>
+            </div>
+            <div class="mensaje-estado" id="estado"></div>
+        </div>
+
+        <!-- 2. CUENTAS Y MENSAJES -->
+        <div class="seccion-cuaderno">
+            <h2>💌 Buzón de Mensajes (Cuentas)</h2>
+            <div class="caja-blanca">
+                
+                <div id="panelLogin">
+                    <p style="margin-top: 0;">Crea una cuenta o inicia sesión para enviar mensajes:</p>
+                    <div class="form-cuenta">
+                        <input type="text" id="usuarioInput" placeholder="Nombre (ej. Rai o Gabriel)">
+                        <input type="password" id="claveInput" placeholder="Contraseña">
+                        <button type="button" class="btn-guardar" onclick="iniciarSesion()">Entrar</button>
+                        <button type="button" class="btn-secundario" onclick="crearCuenta()">Crear cuenta</button>
+                    </div>
+                    <div id="errorCuenta" style="color: #d62828; font-size: 14px; font-weight: bold; margin-top: 10px;"></div>
+                    <div id="listaCuentasCreadas" style="font-size: 13px; color: #457b9d; margin-top: 8px;"></div>
+                </div>
+
+                <div id="panelChat" style="display: none;">
+                    <div class="barra-usuario">
+                        <span>Conectado como: <strong id="nombreUsuarioActivo"></strong></span>
+                        <button type="button" class="btn-limpiar" style="padding: 5px 10px;" onclick="cerrarSesion()">Cambiar cuenta</button>
+                    </div>
+
+                    <div class="historial-chat" id="historialChat"></div>
+
+                    <div class="enviar-chat">
+                        <input type="text" id="mensajeInput" placeholder="Escribe un mensaje bonito..." onkeypress="if(event.key==='Enter') enviarMensaje()">
+                        <button type="button" class="btn-guardar" onclick="enviarMensaje()">Enviar ❤️</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 3. PIZARRA -->
+        <div class="seccion-cuaderno">
+            <h2>🎨 Pizarra para Dibujar</h2>
+            <div class="controles-pizarra">
+                <label>Color: <input type="color" id="colorPincel" value="#e63946"></label>
+                <label>Grosor: <input type="range" id="grosorPincel" min="1" max="25" value="4"></label>
+                <button type="button" class="btn-limpiar" onclick="activarBorrador()">🧽 Borrador</button>
+                <button type="button" class="btn-subir" onclick="activarPincel()">🖌️ Pincel</button>
+                <button type="button" class="btn-limpiar" onclick="limpiarPizarra()">🗑️ Limpiar pizarra</button>
+                <button type="button" class="btn-secundario" onclick="guardarDibujo()">💾 Descargar dibujo</button>
+            </div>
+            <canvas id="pizarra"></canvas>
+        </div>
+
+        <!-- 4. SECCIÓN FINAL -->
+        <div class="seccion-final">
+            <div class="texto-muak">MUAK 💋</div>
+            <div class="foto-final">
+                <img src="foto_muak.jpg" alt="Muak">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const memoriaTemporal = {};
+        function guardarDato(clave, valor) {
+            memoriaTemporal[clave] = valor;
+            try { localStorage.setItem(clave, valor); } catch (e) {}
+        }
+        function leerDato(clave) {
+            try {
+                const val = localStorage.getItem(clave);
+                if (val !== null) return val;
+            } catch (e) {}
+            return memoriaTemporal[clave] || null;
+        }
+        function borrarDato(clave) {
+            delete memoriaTemporal[clave];
+            try { localStorage.removeItem(clave); } catch (e) {}
+        }
+
+        /* 1. NOTAS Y FOTOS */
+        const areaTexto = document.getElementById('blocNotas');
+        const estado = document.getElementById('estado');
+        const galeria = document.getElementById('galeriaFotos');
+        let fotosGuardadas = [];
+
+        areaTexto.addEventListener('input', function() {
+            guardarDato('notaParaGabriel', areaTexto.value);
+        });
+
+        function agregarFoto(event) {
+            const archivo = event.target.files[0];
+            if (!archivo) return;
+            const lector = new FileReader();
+            lector.onload = function(e) {
+                fotosGuardadas.push(e.target.result);
+                guardarDato('fotosParaGabriel', JSON.stringify(fotosGuardadas));
+                mostrarFotos();
+                mostrarMensaje("¡Foto agregada!");
+            };
+            lector.readAsDataURL(archivo);
+            event.target.value = "";
+        }
+
+        function mostrarFotos() {
+            galeria.innerHTML = "";
+            fotosGuardadas.forEach((fotoBase64, index) => {
+                const div = document.createElement('div');
+                div.className = 'foto-item';
+                div.innerHTML = `
+                    <img src="${fotoBase64}" alt="Recuerdo">
+                    <button type="button" class="btn-borrar-foto" onclick="borrarFoto(${index})" title="Quitar foto">✕</button>
+                `;
+                galeria.appendChild(div);
+            });
+        }
+
+        function borrarFoto(index) {
+            fotosGuardadas.splice(index, 1);
+            guardarDato('fotosParaGabriel', JSON.stringify(fotosGuardadas));
+            mostrarFotos();
+        }
+
+        function guardarNota() {
+            guardarDato('notaParaGabriel', areaTexto.value);
+            mostrarMensaje("¡Nota guardada!");
+        }
+
+        function limpiarTodo() {
+            if (confirm("¿Seguro que quieres borrar el texto y las fotos?")) {
+                areaTexto.value = "";
+                fotosGuardadas = [];
+                borrarDato('notaParaGabriel');
+                borrarDato('fotosParaGabriel');
+                mostrarFotos();
+                mostrarMensaje("Hoja limpia.");
+            }
+        }
+
+        function mostrarMensaje(texto) {
+            estado.textContent = texto;
+            setTimeout(() => { estado.textContent = ""; }, 3000);
+        }
+
+        /* 2. CUENTAS Y MENSAJES */
+        let usuarioActual = null;
+        let cuentas = JSON.parse(leerDato('cuentasGabriel')) || {};
+        let mensajes = JSON.parse(leerDato('mensajesGabriel')) || [];
+
+        function actualizarListaCuentas() {
+            const nombres = Object.keys(cuentas);
+            const divLista = document.getElementById('listaCuentasCreadas');
+            if (nombres.length > 0) {
+                divLista.textContent = "Cuentas registradas: " + nombres.join(", ");
+            } else {
+                divLista.textContent = "Aún no hay cuentas creadas. Escribe un nombre y dale a 'Crear cuenta'.";
+            }
+        }
+
+        function crearCuenta() {
+            const user = document.getElementById('usuarioInput').value.trim();
+            const pass = document.getElementById('claveInput').value.trim();
+            const errorDiv = document.getElementById('errorCuenta');
+
+            if (!user || !pass) {
+                errorDiv.textContent = "Escribe un nombre y una contraseña primero.";
+                return;
+            }
+            if (cuentas[user]) {
+                errorDiv.textContent = "Esa cuenta ya existe. Pulsa el botón rojo 'Entrar'.";
+                return;
+            }
+
+            cuentas[user] = pass;
+            guardarDato('cuentasGabriel', JSON.stringify(cuentas));
+            errorDiv.textContent = "";
+            actualizarListaCuentas();
+            entrarAlChat(user);
+        }
+
+        function iniciarSesion() {
+            const user = document.getElementById('usuarioInput').value.trim();
+            const pass = document.getElementById('claveInput').value.trim();
+            const errorDiv = document.getElementById('errorCuenta');
+
+            if (!user || !pass) {
+                errorDiv.textContent = "Escribe tu nombre y contraseña.";
+                return;
+            }
+            if (!cuentas[user]) {
+                errorDiv.textContent = "Esa cuenta no existe todavía. Dale al botón verde 'Crear cuenta'.";
+                return;
+            }
+            if (cuentas[user] !== pass) {
+                errorDiv.textContent = "Contraseña incorrecta.";
+                return;
+            }
+
+            errorDiv.textContent = "";
+            entrarAlChat(user);
+        }
+
+        function entrarAlChat(user) {
+            usuarioActual = user;
+            document.getElementById('panelLogin').style.display = 'none';
+            document.getElementById('panelChat').style.display = 'block';
+            document.getElementById('nombreUsuarioActivo').textContent = user;
+            renderizarMensajes();
+        }
+
+        function cerrarSesion() {
+            usuarioActual = null;
+            document.getElementById('panelLogin').style.display = 'block';
+            document.getElementById('panelChat').style.display = 'none';
+            document.getElementById('usuarioInput').value = "";
+            document.getElementById('claveInput').value = "";
+            actualizarListaCuentas();
+        }
+
+        function enviarMensaje() {
+            const input = document.getElementById('mensajeInput');
+            const texto = input.value.trim();
+            if (!texto || !usuarioActual) return;
+
+            const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            mensajes.push({ autor: usuarioActual, texto: texto, hora: hora });
+            guardarDato('mensajesGabriel', JSON.stringify(mensajes));
+            
+            input.value = "";
+            renderizarMensajes();
+        }
+
+        function renderizarMensajes() {
+            const contenedor = document.getElementById('historialChat');
+            contenedor.innerHTML = "";
+
+            if (mensajes.length === 0) {
+                contenedor.innerHTML = '<div style="color:#8d99ae; text-align:center; margin-top:80px;">No hay mensajes aún. ¡Escribe el primero!</div>';
+                return;
+            }
+
+            mensajes.forEach(msg => {
+                const div = document.createElement('div');
+                const esMio = msg.autor === usuarioActual;
+                div.className = `burbuja-msg ${esMio ? 'msg-propio' : 'msg-otro'}`;
+                div.innerHTML = `
+                    <span class="msg-autor">${msg.autor} • ${msg.hora}</span>
+                    ${msg.texto}
+                `;
+                contenedor.appendChild(div);
+            });
+            contenedor.scrollTop = contenedor.scrollHeight;
+        }
+
+        /* 3. PIZARRA PARA DIBUJAR */
+        const canvas = document.getElementById('pizarra');
+        const ctx = canvas.getContext('2d');
+        const colorInput = document.getElementById('colorPincel');
+        const grosorInput = document.getElementById('grosorPincel');
+        
+        let dibujando = false;
+        let usandoBorrador = false;
+
+        function inicializarPizarra() {
+            canvas.width = canvas.offsetWidth || 760;
+            canvas.height = canvas.offsetHeight || 360;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            const dibujoGuardado = leerDato('dibujoParaGabriel');
+            if (dibujoGuardado) {
+                const img = new Image();
+                img.onload = () => ctx.drawImage(img, 0, 0);
+                img.src = dibujoGuardado;
+            }
+        }
+
+        function obtenerPosicion(e) {
+            const rect = canvas.getBoundingClientRect();
+            const escalaX = canvas.width / rect.width;
+            const escalaY = canvas.height / rect.height;
+            const clienteX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clienteY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clienteX - rect.left) * escalaX,
+                y: (clienteY - rect.top) * escalaY
+            };
+        }
+
+        function empezarDibujo(e) {
+            dibujando = true;
+            const pos = obtenerPosicion(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function trazar(e) {
+            if (!dibujando) return;
+            e.preventDefault();
+            const pos = obtenerPosicion(e);
+            ctx.lineWidth = grosorInput.value;
+            ctx.strokeStyle = usandoBorrador ? '#ffffff' : colorInput.value;
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function terminarDibujo() {
+            if (!dibujando) return;
+            dibujando = false;
+            ctx.closePath();
+            guardarDato('dibujoParaGabriel', canvas.toDataURL());
+        }
+
+        canvas.addEventListener('mousedown', empezarDibujo);
+        canvas.addEventListener('mousemove', trazar);
+        canvas.addEventListener('mouseup', terminarDibujo);
+        canvas.addEventListener('mouseout', terminarDibujo);
+
+        canvas.addEventListener('touchstart', empezarDibujo, { passive: false });
+        canvas.addEventListener('touchmove', trazar, { passive: false });
+        canvas.addEventListener('touchend', terminarDibujo);
+
+        function activarBorrador() { usandoBorrador = true; }
+        function activarPincel() { usandoBorrador = false; }
+
+        function limpiarPizarra() {
+            if (confirm("¿Borrar todo el dibujo de la pizarra?")) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                borrarDato('dibujoParaGabriel');
+            }
+        }
+
+        function guardarDibujo() {
+            const enlace = document.createElement('a');
+            enlace.download = 'dibujo_para_gabriel.png';
+            enlace.href = canvas.toDataURL();
+            enlace.click();
+        }
+
+        /* 4. INICIO AL ABRIR LA PÁGINA */
+        window.addEventListener('DOMContentLoaded', function() {
+            const notaGuardada = leerDato('notaParaGabriel');
+            if (notaGuardada) areaTexto.value = notaGuardada;
+
+            const fotos = leerDato('fotosParaGabriel');
+            if (fotos) {
+                fotosGuardadas = JSON.parse(fotos);
+                mostrarFotos();
+            }
+
+            actualizarListaCuentas();
+            inicializarPizarra();
+        });
+    </script>
+
+</body>
+</html>
